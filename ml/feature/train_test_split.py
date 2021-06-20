@@ -10,26 +10,21 @@ storage_client = storage.Client()
 
 
 
-def create_copy(source_file,dest_file, gcs=False):
+
+def create_copy(source_file,dest_file, filename, gcs=False):
     if gcs:
-        try:
-            source_bucket = storage_client.bucket(source_file.split('/')[2])
-            source_blob = source_bucket.blob(source_file)
-        except:
-            print("Source is not GCS")
+        source_bucket = storage_client.bucket(source_file.split('/')[2])
+        source_blob = source_bucket.blob(os.path.join(*source_file.split('/')[3:]))
         destination_bucket = storage_client.bucket(dest_file.split('/')[2])
-        destination_blob_name = destination_bucket.blob(dest_file)
         blob_copy = source_bucket.copy_blob(
-            source_blob, 
-            destination_bucket, 
-            destination_blob_name
-        )
+        source_blob, destination_bucket,os.path.join(*dest_file.split('/')[3:]))
     else:
         copyfile(source_file,dest_file)
         
     
 
 def iterate_dir(source, dest, ratio, copy_xml, gcs):
+    images=[]
     source = source.replace('\\', '/')
     dest = dest.replace('\\', '/')
     train_dir = os.path.join(dest, 'train')
@@ -46,7 +41,9 @@ def iterate_dir(source, dest, ratio, copy_xml, gcs):
         images = [f for f in os.listdir(os.path.join(source, 'images')) 
                   if re.search(r'([a-zA-Z0-9\s_\\.\-\(\):])+(?i)(.jpg|.jpeg|.png)$', f)]
     else:
-        pass
+        prefix = "/".join(source.split('/')[3:])+'/images/'
+        for blob in storage_client.list_blobs(source.split('/')[2], prefix=prefix):
+            images.append(blob.name.replace(prefix, ""))
         
         
     
@@ -57,20 +54,20 @@ def iterate_dir(source, dest, ratio, copy_xml, gcs):
         idx = random.randint(0, len(images)-1)
         filename = images[idx]
         create_copy(os.path.join(source,'images', filename),
-                 os.path.join(test_dir,'images', filename),gcs)
+                 os.path.join(test_dir,'images', filename),filename, gcs)
         if copy_xml:
             xml_filename = os.path.splitext(filename)[0]+'.xml'
             create_copy(os.path.join(source, 'annotations', xml_filename),
-                     os.path.join(test_dir,'annotations', xml_filename),gcs)
+                     os.path.join(test_dir,'annotations', xml_filename),xml_filename, gcs)
         images.remove(images[idx])
 
     for filename in images:
         create_copy(os.path.join(source, 'images', filename),
-                 os.path.join(train_dir, 'images', filename),gcs)
+                 os.path.join(train_dir, 'images', filename),filename,gcs)
         if copy_xml:
             xml_filename = os.path.splitext(filename)[0]+'.xml'
             create_copy(os.path.join(source, 'annotations', xml_filename),
-                     os.path.join(train_dir, 'annotations', xml_filename),gcs)
+                     os.path.join(train_dir, 'annotations', xml_filename),xml_filename,gcs)
 
 
 def main():
