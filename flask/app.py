@@ -6,6 +6,7 @@ from datetime import datetime
 from flask_cors import CORS
 from flask import Flask, flash, request, redirect, render_template, abort, jsonify, send_from_directory, send_file, safe_join, abort
 from werkzeug.utils import secure_filename
+from db_connection import User, UserRegister
 
 app = Flask(__name__, static_folder='static/', template_folder="templates")
 CORS(app)
@@ -51,4 +52,6 @@ def upload_file():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+	UserRegister.post(filename='license_data.csv')
+	app.run(host='0.0.0.0', port=5000, debug=True)
+	# UserRegister.post(filename='license_data.csv')
