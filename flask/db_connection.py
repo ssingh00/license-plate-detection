@@ -6,7 +6,7 @@ import db_constants
 
 
 class User():
-    TABLE_NAME = 'license_details'
+    # TABLE_NAME = 'license_details'
 
     def __init__(self, _id, firstname, lastname, license_number):
         self.id = _id
@@ -19,7 +19,7 @@ class User():
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
 
-        query = "SELECT * FROM {table} WHERE license_number=?".format(table=cls.TABLE_NAME)
+        query = "SELECT * FROM {table} WHERE license_number=?".format(table=db_constants.TABLE_NAME)
         result = cursor.execute(query, (license_number,))
         row = result.fetchone()
         if row:
@@ -49,6 +49,7 @@ class UserRegister(Resource):
         connection = sqlite3.connect(db_constants.DB_NAME)
         cursor = connection.cursor()
         create_table = "CREATE TABLE IF NOT EXISTS {table} (id INTEGER PRIMARY KEY, firstname text, lastname text, license_number text)".format(table=db_constants.TABLE_NAME)
+        cursor.execute(create_table)
         connection.commit()
 
     def upload_batch(filename):
