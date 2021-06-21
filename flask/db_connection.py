@@ -6,7 +6,6 @@ import db_constants
 
 
 class User():
-    # TABLE_NAME = 'license_details'
 
     def __init__(self, _id, firstname, lastname, license_number):
         self.id = _id
