@@ -26,7 +26,10 @@ class User():
         print ("--------row----------")
         print (row)
         if row:
-            user = cls(*row)
+            user = {}
+            user.firstname = row.firstname
+            user.lastname = row.lastname
+            user.license_number = row.license_number
         else:
             user = None
 
