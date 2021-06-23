@@ -18,7 +18,7 @@ class User():
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
 
-        query = "SELECT * FROM {table} WHERE license_number={}".format(table=db_constants.TABLE_NAME, license_number=license_number)
+        query = "SELECT * FROM {table} WHERE license_number={license_number}".format(table=db_constants.TABLE_NAME, license_number=license_number)
         print (query)
         result = cursor.execute(query, (license_number,))
         row = result.fetchone()
