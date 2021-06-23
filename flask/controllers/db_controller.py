@@ -18,10 +18,13 @@ class User():
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
 
-        query = "SELECT * FROM {table} WHERE license_number={license_number}".format(table=db_constants.TABLE_NAME, license_number=license_number)
-        print (query)
+        query = "SELECT * FROM {table} WHERE license_number=?".format(table=db_constants.TABLE_NAME)
         result = cursor.execute(query, (license_number,))
+        print ("--------result----------")
+        print (result)
         row = result.fetchone()
+        print ("--------row----------")
+        print (row)
         if row:
             user = cls(*row)
         else:
