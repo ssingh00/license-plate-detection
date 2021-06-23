@@ -55,8 +55,9 @@ def upload_file():
             license_number = plate_recognition(cropped_plate)
             print ("cropped_plate :" + cropped_plate)
             print ("license_number :" + license_number)
-            license_number = license_number.replace(" ", "").lower()
-            user_details = User.find_by_license_number(lower(license_number))
+            license_number = license_number.replace(" ", "")
+            print ("license_number_to_db :" + license_number)
+            user_details = User.find_by_license_number(license_number)
             print ("user_details :" + user_details)
             return jsonify(user_details)
         else:
