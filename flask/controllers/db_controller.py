@@ -27,9 +27,9 @@ class User():
         print (row)
         if row:
             user = {}
-            user.firstname = row.firstname
-            user.lastname = row.lastname
-            user.license_number = row.license_number
+            user.firstname = row[1]
+            user.lastname = row[2]
+            user.license_number = row[3]
         else:
             user = None
 
