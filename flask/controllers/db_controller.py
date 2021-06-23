@@ -2,7 +2,7 @@ import sqlite3
 from flask_restful import Resource
 import json
 import pandas as pd
-import db_constants
+import controllers.db_constants as db_constants
 
 
 class User():
