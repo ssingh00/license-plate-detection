@@ -53,7 +53,10 @@ def upload_file():
             cropped_plate = plate_detection(
                 file_path=file_path, project_id=app_constants.project_id, model_id=app_constants.model_id)
             license_number = plate_recognition(cropped_plate)
+            print ("cropped_plate :" + cropped_plate)
+            print ("license_number :" + license_number)
             user_details = User.find_by_license_number(license_number)
+            print ("user_details :" + user_details)
             return jsonify(user_details)
         else:
             flash('Allowed file types are png, jpg, jpeg, gif, mpeg, mp4')
