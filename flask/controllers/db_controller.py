@@ -25,19 +25,18 @@ class User():
         result = cursor.execute(query, (license_number,))
         print ("--------result----------")
         print (result)
-        rows = result.fetchall()
+        row = result.fetchone()
         print ("--------row----------")
-        print (rows)
-        for row in rows:
-            if row:
-                user = {}
-                user['firstname'] = row[1]
-                user['lastname'] = row[2]
-                user['license_number'] = row[3]
-                user['age'] = row[4]
-                user['city'] = row[5]
-            else:
-                user = None
+        print (row)
+        if row:
+            user = {}
+            user['firstname'] = row[1]
+            user['lastname'] = row[2]
+            user['license_number'] = row[3]
+            user['age'] = row[4]
+            user['city'] = row[5]
+        else:
+            user = None
 
         connection.close()
         return user
