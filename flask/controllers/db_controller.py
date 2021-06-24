@@ -78,8 +78,8 @@ class UserRegister(Resource):
             cursor = connection.cursor()
 
 
-            query = "INSERT INTO {table} VALUES (NULL, ?, ?, ?)".format(table=db_constants.TABLE_NAME)
-            cursor.execute(query, (row['firstname'], row['lastname'], row['license_number']))
+            query = "INSERT INTO {table} VALUES (NULL, ?, ?, ?, ?, ?)".format(table=db_constants.TABLE_NAME)
+            cursor.execute(query, (row['firstname'], row['lastname'], row['license_number'], row['age'], row['city']))
 
             connection.commit()
             connection.close()
