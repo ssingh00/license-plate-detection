@@ -25,7 +25,7 @@ class User():
         result = cursor.execute(query, (license_number,))
         print ("--------result----------")
         print (result)
-        row = result.fetchone()
+        row = result.fetchall()
         print ("--------row----------")
         print (row)
         if row:
