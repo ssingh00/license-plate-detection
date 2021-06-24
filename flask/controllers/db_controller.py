@@ -19,15 +19,9 @@ class User():
     def find_by_license_number(cls, license_number):
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
-        print ("----------licenese number to fetch------------")
-        print (license_number)
         query = "SELECT * FROM {table} WHERE license_number=?".format(table=db_constants.TABLE_NAME)
         result = cursor.execute(query, (license_number,))
-        print ("--------result----------")
-        print (result)
         row = result.fetchone()
-        print ("--------row----------")
-        print (row)
         if row:
             user = {}
             user['firstname'] = row[1]
@@ -83,9 +77,6 @@ class UserRegister(Resource):
 
             connection.commit()
             connection.close()
-
-            # return {"message": "User created successfully."}, 201
-
 
 
     def post(filename):
