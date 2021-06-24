@@ -7,19 +7,22 @@ import controllers.db_constants as db_constants
 
 class User():
 
-    def __init__(self, _id, firstname, lastname, license_number):
+    def __init__(self, _id, firstname, lastname, license_number, age, city):
         self.id = _id
         self.firstname = firstname
         self.lastname = lastname
-        self.license_number = license_number      
+        self.license_number = license_number
+        self.age = age
+        self.city = city
 
     @classmethod
     def find_by_license_number(cls, license_number):
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
-
-        query = "SELECT * FROM {table} WHERE license_number=?".format(table=db_constants.TABLE_NAME)
-        result = cursor.execute(query, (license_number,))
+        print ("----------licenese number to fetch------------")
+        print (license_number)
+        query = "SELECT * FROM {table} WHERE license_number= ?".format(table=db_constants.TABLE_NAME)
+        result = cursor.execute(query, license_number)
         print ("--------result----------")
         print (result)
         row = result.fetchone()
@@ -30,6 +33,8 @@ class User():
             user['firstname'] = row[1]
             user['lastname'] = row[2]
             user['license_number'] = row[3]
+            user['age'] = row[4]
+            user['city'] = row[5]
         else:
             user = None
 
@@ -54,7 +59,7 @@ class UserRegister(Resource):
     def create_database():
         connection = sqlite3.connect(db_constants.DB_NAME)
         cursor = connection.cursor()
-        create_table = "CREATE TABLE IF NOT EXISTS {table} (id INTEGER PRIMARY KEY, firstname text, lastname text, license_number text)".format(table=db_constants.TABLE_NAME)
+        create_table = "CREATE TABLE IF NOT EXISTS {table} (id INTEGER PRIMARY KEY, firstname text, lastname text, license_number text, age int, city text)".format(table=db_constants.TABLE_NAME)
         cursor.execute(create_table)
         connection.commit()
 
