@@ -1,4 +1,5 @@
-firstname,lastname,license_number
-Anoop,Talwar,TMPRG21
-Sandeep,Singh,DLANBS1425
+firstname,lastname,license_number,age,city
+Anoop,Talwar,TMPRG21,34,Delhi
+Sandeep,Singh,CZ20FSE,32,Gurgaon
+Bhishm,Juneja,MH20DV2366,26,Paris
 
