@@ -9,6 +9,7 @@ from werkzeug.utils import secure_filename
 from controllers.db_controller import User, UserRegister
 from controllers.app_controllers import plate_detection, plate_recognition
 import controllers.app_constants as app_constants
+import jinja2
 
 
 app = Flask(__name__, static_folder='static/', template_folder="templates")
@@ -59,7 +60,7 @@ def upload_file():
             print ("license_number_to_db :" + license_number)
             user_details = User.find_by_license_number(license_number)
             # return jsonify(user_details)
-            return render_template("upload.html", web_data = user_details)
+            return render_template("upload.html", user_details)
         else:
             flash('Allowed file types are png, jpg, jpeg, gif, mpeg, mp4')
             return redirect(request.url)
