@@ -28,7 +28,15 @@
 				<input type="submit" value="Submit">
 			</p>
 		</form>
-
+		<hr>
+		<!-- <img src="{{ user_image }}" alt="User Image"> -->
+		<table>
+			<tr>
+				{%for value in user_data.values()%}
+				  <td class="col-md-2">{{ value }}</td>
+				{% endfor %}
+			</tr>
+		</table>
 
 
 	</body>
