@@ -59,8 +59,11 @@ def upload_file():
             license_number = license_number.replace(" ", "")
             print ("license_number_to_db :" + license_number)
             user_details = User.find_by_license_number(license_number)
+            data_group = []
+            data_group.append(user_details)
+
             # return jsonify(user_details)
-            return render_template("upload.html", user_details)
+            return render_template("upload.html", user_details=data_group)
         else:
             flash('Allowed file types are png, jpg, jpeg, gif, mpeg, mp4')
             return redirect(request.url)
